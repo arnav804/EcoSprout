@@ -286,7 +286,44 @@
 <div id="toast" class="toast card px-5 py-4 font-bold flex items-center gap-3"></div>
 <div id="zoneModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><div><span class="text-green font-bold text-xs">CAMPUS ZONE</span><h2 id="zoneTitle" class="text-3xl font-bold mt-1"></h2></div><button onclick="closeModal('zoneModal')" class="btn w-9 h-9 rounded-full soft">✕</button></div><div class="mt-6 soft rounded-2xl p-5"><div class="flex justify-between"><span>Cleanliness</span><b id="zonePct"></b></div><div class="progress mt-3"><i id="zoneBar"></i></div><p id="zoneDesc" class="muted text-sm mt-4"></p></div><button id="zoneAction" class="btn green text-white w-full mt-5 py-3 rounded-xl font-bold">Start Challenge</button></div></div>
 <div id="howModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><h2 class="text-3xl font-bold">How EcoSprout Works 🌍</h2><button onclick="closeModal('howModal')">✕</button></div><div class="grid gap-4 mt-6"><div class="soft rounded-2xl p-5"><b>01 · Take action</b><p class="muted text-sm mt-1">Choose a verified environmental task from your dashboard.</p></div><div class="soft rounded-2xl p-5"><b>02 · Submit proof</b><p class="muted text-sm mt-1">Upload a photo or supporting proof where required.</p></div><div class="soft rounded-2xl p-5"><b>03 · Earn XP</b><p class="muted text-sm mt-1">Verified actions add points, unlock badges and grow your streak.</p></div><div class="soft rounded-2xl p-5"><b>04 · Redeem & compete</b><p class="muted text-sm mt-1">Redeem rewards, climb the leaderboard and build your campus impact.</p></div></div></div></div>
-<div id="actionModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><div><span class="text-green font-bold text-xs">VERIFY ACTION</span><h2 id="actionTitle" class="text-3xl font-bold mt-1"></h2></div><button onclick="closeModal('actionModal')">✕</button></div><p id="actionPoints" class="text-green font-bold mt-3"></p><div class="mt-6 border-2 border-dashed border-emerald-200 dark:border-emerald-900 rounded-2xl p-8 text-center"><div class="text-4xl">📸</div><p class="font-bold mt-2">Upload proof</p><p class="muted text-xs mt-1">Demo mode: verification is simulated.</p><input id="proof" type="file" class="mt-4 text-sm max-w-full"></div><button onclick="verifyAction()" class="btn green text-white w-full mt-5 py-3 rounded-xl font-bold">Submit for Verification</button></div></div>
+<div id="actionModal" class="modal-wrap">
+  <div class="modal card p-7">
+    <div class="flex justify-between">
+      <div>
+        <span class="text-green font-bold text-xs">VERIFY ACTION</span>
+        <h2 id="actionTitle" class="text-3xl font-bold mt-1"></h2>
+      </div>
+      <button onclick="closeModal('actionModal')">✕</button>
+    </div>
+
+    <p id="actionPoints" class="text-green font-bold mt-3"></p>
+
+    <div class="mt-6 border-2 border-dashed border-emerald-200 dark:border-emerald-900 rounded-2xl p-8 text-center">
+      <div class="text-4xl">🎥</div>
+      <p class="font-bold mt-2">Upload Video Proof</p>
+      <p class="muted text-xs mt-1">
+        Gemini AI will verify your environmental activity.
+      </p>
+
+      <input
+        id="proof"
+        type="file"
+        accept="video/*"
+        class="mt-4 text-sm max-w-full"
+      />
+
+      <p id="aiVerificationStatus" class="text-sm mt-4 font-bold" aria-live="polite"></p>
+    </div>
+
+    <button
+      id="verifyActionButton"
+      onclick="verifyAction()"
+      class="btn green text-white w-full mt-5 py-3 rounded-xl font-bold"
+    >
+      Submit for Verification
+    </button>
+  </div>
+</div>
 <div id="rewardModal" class="modal-wrap"><div class="modal card p-7"><div class="text-center"><div id="rewardEmoji" class="text-6xl"></div><h2 id="rewardTitle" class="text-3xl font-bold mt-3"></h2><p id="rewardCost" class="text-green font-bold mt-2"></p><p class="muted text-sm mt-3">Confirm redemption? Your points will be deducted.</p><div class="flex gap-3 mt-6"><button onclick="closeModal('rewardModal')" class="btn soft flex-1 py-3 rounded-xl font-bold">Cancel</button><button onclick="confirmReward()" class="btn green text-white flex-1 py-3 rounded-xl font-bold">Redeem ✓</button></div></div></div></div>
 <div id="profileModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><div><span class="text-green font-bold text-xs">YOUR PROFILE</span><h2 class="text-3xl font-bold mt-1">Arnav · Green Guardian</h2></div><button onclick="closeModal('profileModal')">✕</button></div><div class="grid grid-cols-2 gap-4 mt-6"><div class="soft rounded-2xl p-5"><b>1,250</b><p class="muted text-xs">Eco Points</p></div><div class="soft rounded-2xl p-5"><b>12 days</b><p class="muted text-xs">Current Streak</p></div><div class="soft rounded-2xl p-5"><b>7</b><p class="muted text-xs">Trees Planted</p></div><div class="soft rounded-2xl p-5"><b>8</b><p class="muted text-xs">Badges</p></div></div></div></div>
 <div id="verificationModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><h2 class="text-3xl font-bold">Verification rules</h2><button onclick="closeModal('verificationModal')">✕</button></div><div class="mt-5 space-y-3 text-sm"><p>📸 <b>Photos:</b> Required for planting, cleanup and reuse tasks.</p><p>🧾 <b>Receipts:</b> Useful for recycling/e-waste proof.</p><p>📱 <b>Activity screenshots:</b> Accepted for cycling/walking tasks.</p><p>🛡️ <b>Anti-cheat:</b> Repeated or suspicious submissions can be rejected.</p></div></div></div>
@@ -309,7 +346,102 @@ function renderLeaders(type){let mult=type==='weekly'?.35:type==='all'?1.8:1; $(
 function leaderTab(btn,type){document.querySelectorAll('.tab').forEach(x=>x.className='tab btn px-4 py-2 rounded-xl text-sm font-semibold');btn.className='tab btn px-4 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-green font-bold text-sm';renderLeaders(type)}
 function openModal(id){$(id).style.display='flex'}function closeModal(id){$(id).style.display='none'}document.querySelectorAll('.modal-wrap').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.style.display='none'}));
 function openAction(i){currentAction=i;$('actionTitle').textContent=actions[i][1];$('actionPoints').textContent=`Earn +${actions[i][2]} points · ${actions[i][3]}`;openModal('actionModal')}
-function verifyAction(){let a=actions[currentAction];points+=a[2];history.unshift({icon:a[0],text:a[1],pts:a[2],time:'Just now'});closeModal('actionModal');toast(`+${a[2]} points added! 🌱`);render();}
+async function verifyAction() {
+  const videoInput = document.getElementById("proof");
+  const statusElement = document.getElementById("aiVerificationStatus");
+  const button = document.getElementById("verifyActionButton");
+
+  const video = videoInput.files[0];
+
+  if (!video) {
+    statusElement.textContent = "⚠️ Please upload a video first.";
+    return;
+  }
+
+  if (!video.type.startsWith("video/")) {
+    statusElement.textContent = "❌ Only video files are allowed.";
+    return;
+  }
+
+  if (video.size > 5 * 1024 * 1024) {
+    statusElement.textContent = "⚠️ Please upload a video smaller than 5 MB.";
+    return;
+  }
+
+  const actionIndex = currentAction;
+  const action = actions[actionIndex];
+
+  if (!action) {
+    statusElement.textContent = "❌ Invalid activity selected.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Gemini AI is verifying...";
+  statusElement.textContent = "🔍 Analyzing your video. Please wait...";
+
+  try {
+    const formData = new FormData();
+
+    formData.append("video", video);
+    formData.append("activity", action[1]);
+
+    const response = await fetch("/api/verify-video", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "Verification failed.");
+    }
+
+    const result = data.verification;
+
+    if (
+      result.status === "APPROVED" &&
+      result.personDetected === true &&
+      result.activityDetected === true &&
+      result.stepsVisible === true &&
+      result.suspicious === false
+    ) {
+      points += action[2];
+
+      history.unshift({
+        icon: action[0],
+        text: action[1],
+        pts: action[2],
+        time: "Just now"
+      });
+
+      statusElement.textContent = "✅ Activity verified successfully!";
+
+      closeModal("actionModal");
+
+      toast(`+${action[2]} points added! 🌱`);
+
+      render();
+
+      videoInput.value = "";
+    } else if (result.status === "NEEDS_REVIEW") {
+      statusElement.textContent =
+        "🟡 Needs Review: " + (result.reason || "Video evidence is unclear.");
+    } else {
+      statusElement.textContent =
+        "❌ Verification Rejected: " +
+        (result.reason || "Activity could not be verified.");
+    }
+  } catch (error) {
+    console.error("Gemini verification error:", error);
+
+    statusElement.textContent =
+      "⚠️ Verification failed: " + error.message;
+  } finally {
+    button.disabled = false;
+    button.textContent = "Submit for Verification";
+  }
+}
 function openReward(i){if(points<rewards[i][2])return;pendingReward=i;$('rewardEmoji').textContent=rewards[i][0];$('rewardTitle').textContent=rewards[i][1];$('rewardCost').textContent=`${fmt(rewards[i][2])} points`;openModal('rewardModal')}
 function confirmReward(){let r=rewards[pendingReward];points-=r[2];history.unshift({icon:r[0],text:`Redeemed ${r[1]}`,pts:-r[2],time:'Just now'});closeModal('rewardModal');toast(`${r[1]} redeemed successfully! 🎁`);render()}
 function zoneInfo(name,pct,desc,bonus){$('zoneTitle').textContent=name;$('zonePct').textContent=pct;$('zoneBar').style.width=pct;$('zoneDesc').textContent=desc;$('zoneAction').textContent=`Start Cleanup Challenge ${bonus} XP`;$('zoneAction').onclick=()=>{points+=parseInt(bonus.replace('+',''));history.unshift({icon:'🧹',text:`Cleanup challenge · ${name}`,pts:parseInt(bonus.replace('+','')),time:'Just now'});closeModal('zoneModal');toast(`${bonus} points for cleaning ${name}! 🧹`);render()};openModal('zoneModal')}
