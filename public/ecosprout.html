@@ -222,14 +222,14 @@
   <div class="pixel-ui-top">
     
     <div class="world-mini-stats">
-      <span>🌳 <b>7</b> trees</span>
-      <span>♻️ <b>23.4kg</b></span>
-      <span>🔥 <b>12d</b></span>
+      <span>🌳 <b id="userTrees">0</b> trees</span>
+<span>♻️ <b id="userCarbon">0</b>kg</span>
+<span>🔥 <b id="userStreak">0</b>d</span>
     </div>
   </div>
 
   <div class="pixel-hero-copy">
-    <div class="pixel-kicker">LEVEL 07 · GREEN GUARDIAN</div>
+    <div class="pixel-kicker" id="userLevel">LEVEL 07 · GREEN GUARDIAN</div>
     <button
   onclick="window.top.location.href='https://main.d1m498y9e4r8n9.amplifyapp.com/'"
   class="play-game-btn"
@@ -265,8 +265,38 @@
 <section id="team" class="section"><div class="text-center mb-9"><span class="text-green font-bold text-sm">TEAM-UP 🤝</span><h2 class="text-4xl md:text-5xl font-bold mt-2">Strength in Numbers</h2><p class="muted max-w-2xl mx-auto mt-3">Create teams, launch campus NGOs and solve environmental problems together.</p></div><div class="grid md:grid-cols-3 gap-5"><div class="card p-7"><div class="text-4xl mb-5">🌱</div><h3 class="text-xl font-bold">Create an NGO</h3><p class="muted text-sm mt-2 mb-5">Build your own student-led environmental community.</p><button onclick="openModal('ngoModal')" class="btn green text-white px-5 py-3 rounded-xl font-bold">Create NGO →</button></div><div class="card p-7"><div class="text-4xl mb-5">🤝</div><h3 class="text-xl font-bold">Join a Team</h3><p class="muted text-sm mt-2 mb-5">Find students working on the same environmental mission.</p><button onclick="openModal('joinModal')" class="btn green text-white px-5 py-3 rounded-xl font-bold">Explore Groups →</button></div><div class="card p-7"><div class="text-4xl mb-5">📣</div><h3 class="text-xl font-bold">Launch a Campaign</h3><p class="muted text-sm mt-2 mb-5">Organize a cleanup drive and earn team bonus points.</p><button onclick="openModal('campaignModal')" class="btn green text-white px-5 py-3 rounded-xl font-bold">Start Event →</button></div></div></section>
 
 <section id="dashboard" class="section"><div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8"><div><span class="text-green font-bold text-sm">WELCOME, ECO WARRIOR 👋</span><h2 class="text-4xl md:text-5xl font-bold mt-2">Your Green Dashboard</h2><p class="muted mt-2">Every point is proof that your actions matter.</p></div><button onclick="openModal('profileModal')" class="btn card px-5 py-3 font-bold">View Profile →</button></div>
-<div class="grid md:grid-cols-3 gap-5 mb-6"><div class="card p-7 md:col-span-2 green text-white overflow-hidden relative"><div class="relative z-10 flex justify-between gap-6"><div><p class="text-white/70 text-sm font-bold uppercase">Total Eco Points</p><div class="text-6xl font-bold mt-2 number" id="pointsBig">1,250</div><p class="text-white/75 mt-2">Level 7 · Green Guardian</p></div><div class="text-right"><div class="text-4xl">🌿</div><span class="text-xs text-white/70">+180 this week</span></div></div></div><div class="card p-7 stat"><div class="flex justify-between"><div><p class="muted text-sm font-bold">🔥 Current Streak</p><div class="text-4xl font-bold mt-3">12 <span class="text-lg">days</span></div><p class="muted text-xs mt-2">5 days to next bonus</p></div><div class="text-4xl">🔥</div></div><div class="mt-6 progress"><i style="width:40%"></i></div></div></div>
-<div class="grid stat-grid grid-cols-4 gap-5"><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">🌳 Trees</p><b class="text-2xl mt-2 block">7</b><span class="text-xs text-green">+2 this month</span></div><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">♻️ Recycled</p><b class="text-2xl mt-2 block">23.4 kg</b><span class="text-xs text-green">+4.2 kg this week</span></div><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">🏆 Leaderboard</p><b class="text-2xl mt-2 block">#42</b><span class="text-xs text-green">View your rank</span></div><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">🏅 Badges</p><b class="text-2xl mt-2 block">8 / 14</b><span class="text-xs text-green">57% collected</span></div></div></section>
+<div class="grid md:grid-cols-3 gap-5 mb-6">
+  <div class="card p-7 md:col-span-2 green text-white overflow-hidden relative">
+    <div class="relative z-10 flex justify-between gap-6">
+      <div>
+        <p class="text-white/70 text-sm font-bold uppercase">Total Eco Points</p>
+        <div class="text-6xl font-bold mt-2 number" id="pointsBig">0</div>
+        <p class="text-white/75 mt-2" id="dashboardLevel">Level 1 · Beginner</p>
+      </div>
+      <div class="text-right">
+        <div class="text-4xl">🌿</div>
+        <span class="text-xs text-white/70" id="weeklyPoints">+0 this week</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card p-7 stat">
+    <div class="flex justify-between">
+      <div>
+        <p class="muted text-sm font-bold">🔥 Current Streak</p>
+        <div class="text-4xl font-bold mt-3">
+          <span id="dashboardStreak">0</span>
+          <span class="text-lg">days</span>
+        </div>
+        <p class="muted text-xs mt-2" id="streakBonus">7 days to next bonus</p>
+      </div>
+      <div class="text-4xl">🔥</div>
+    </div>
+    <div class="mt-6 progress">
+      <i id="streakProgress" style="width:0%"></i>
+    </div>
+  </div>
+</div><div class="grid stat-grid grid-cols-4 gap-5"><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">🌳 Trees</p><b class="text-2xl mt-2 block"><span id="dashboardTrees">0</span></b><span class="text-xs text-green">+2 this month</span></div><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">♻️ Recycled</p><b class="text-2xl mt-2 block"><span id="dashboardCarbon">0</span> kg</b><span class="text-xs text-green">+4.2 kg this week</span></div><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">🏆 Leaderboard</p><b class="text-2xl mt-2 block">#42</b><span class="text-xs text-green">View your rank</span></div><div class="card p-5 stat"><p class="muted text-xs font-bold uppercase">🏅 Badges</p><b class="text-2xl mt-2 block"><span id="dashboardBadges">0 / 14</span></b><span class="text-xs text-green">57% collected</span></div></div></section>
 
 <section id="map" class="section mt-16"><div class="card p-6 md:p-8"><div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6"><div><div class="flex items-center gap-2"><span class="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 grid place-items-center">📍</span><h2 class="text-2xl font-bold">Campus Cleanliness Map</h2></div><p class="muted text-sm mt-2">Tap a zone to inspect it and start a cleanup challenge.</p></div><div class="text-right"><b class="text-3xl text-green">84%</b><p class="muted text-xs">OVERALL CLEAN</p></div></div><div class="map rounded-3xl p-3 md:p-5"><svg viewBox="0 0 900 460" class="w-full h-auto"><rect class="zone" onclick="zoneInfo('Quad','95%','Pristine — keep it that way!','+40')" fill="#21bd7d" x="45" y="50" width="250" height="170" rx="28"/><text x="80" y="135" fill="white" font-size="23" font-weight="700">The Quad</text><text x="80" y="168" fill="white" font-size="17">95% clean · 🟢</text><rect class="zone" onclick="zoneInfo('North Wing','40%','High waste detected.','+100')" fill="#f05268" x="340" y="45" width="185" height="280" rx="28"/><text x="365" y="165" fill="white" font-size="20" font-weight="700">North Wing</text><text x="365" y="198" fill="white" font-size="16">40% · 🔴</text><circle cx="430" cy="105" r="11" fill="white"><animate attributeName="r" values="8;16;8" dur="1.5s" repeatCount="indefinite"/></circle><rect class="zone" onclick="zoneInfo('Cafeteria','70%','Moderate waste around bins.','+60')" fill="#f5ad3d" x="570" y="55" width="285" height="140" rx="28"/><text x="615" y="120" fill="white" font-size="21" font-weight="700">Cafeteria</text><text x="615" y="151" fill="white" font-size="16">70% · 🟡</text><rect class="zone" onclick="zoneInfo('Sports Hall','88%','Looking clean!','+30')" fill="#2abf82" x="55" y="260" width="255" height="145" rx="28"/><text x="88" y="330" fill="white" font-size="21" font-weight="700">Sports Hall</text><text x="88" y="360" fill="white" font-size="16">88% · 🟢</text><path d="M300 235 Q335 230 350 260M525 190 Q555 185 570 165" stroke="#7aa99a" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="18 12"/></svg><div class="flex flex-wrap gap-4 px-3 pb-2 text-xs font-semibold"><span>🟢 80–100% Pristine</span><span>🟡 60–79% Needs attention</span><span>🔴 Below 60% Cleanup needed</span></div></div></div></section>
 
@@ -276,8 +306,52 @@
 
 <section id="badges" class="section mt-16"><div class="flex items-end justify-between mb-6"><div><span class="text-green font-bold text-sm">YOUR COLLECTION</span><h2 class="text-3xl md:text-4xl font-bold mt-1">Eco Badges</h2></div><span class="muted text-sm">8 / 14 unlocked</span></div><div id="badgeGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4"></div></section>
 
-<section id="leaderboard" class="section mt-16"><div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6"><div><span class="text-green font-bold text-sm">COMPETE & INSPIRE</span><h2 class="text-3xl md:text-4xl font-bold mt-1">Eco Leaderboard</h2></div><div class="card p-1 flex gap-1"><button class="tab btn px-4 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-green font-bold text-sm" onclick="leaderTab(this,'monthly')">Monthly</button><button class="tab btn px-4 py-2 rounded-xl text-sm font-semibold" onclick="leaderTab(this,'weekly')">Weekly</button><button class="tab btn px-4 py-2 rounded-xl text-sm font-semibold" onclick="leaderTab(this,'all')">All Time</button></div></div><div class="card p-6 md:p-8"><div class="grid grid-cols-3 gap-4 items-end podium mb-8"><div class="text-center"><div class="w-16 h-16 mx-auto rounded-full bg-slate-200 grid place-items-center text-2xl">👩🏽‍🎓</div><div class="font-bold mt-2">Riya K.</div><div class="text-green font-bold">7,940</div><div class="mt-3 h-24 rounded-t-2xl bg-slate-200/70 grid place-items-center font-bold">🥈 #2</div></div><div class="text-center"><div class="w-20 h-20 mx-auto rounded-full bg-amber-100 grid place-items-center text-3xl ring-4 ring-amber-200">👨🏻‍🎓</div><div class="font-bold mt-2">Rohan S.</div><div class="text-green font-bold">8,420</div><div class="mt-3 h-36 rounded-t-2xl bg-amber-100 grid place-items-center font-bold">🏆 #1</div></div><div class="text-center"><div class="w-16 h-16 mx-auto rounded-full bg-orange-100 grid place-items-center text-2xl">👩🏽‍💻</div><div class="font-bold mt-2">Meera P.</div><div class="text-green font-bold">7,610</div><div class="mt-3 h-20 rounded-t-2xl bg-orange-100 grid place-items-center font-bold">🥉 #3</div></div></div><div id="leaderRows"></div></div></section>
+<section id="leaderboard" class="section mt-16">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+    <div>
+      <span class="text-green font-bold text-sm">COMPETE & INSPIRE</span>
+      <h2 class="text-3xl md:text-4xl font-bold mt-1">Eco Leaderboard</h2>
+    </div>
 
+    <div class="card p-1 flex gap-1">
+      <button class="tab btn px-4 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-green font-bold text-sm" onclick="leaderTab(this,'monthly')">Monthly</button>
+      <button class="tab btn px-4 py-2 rounded-xl text-sm font-semibold" onclick="leaderTab(this,'weekly')">Weekly</button>
+      <button class="tab btn px-4 py-2 rounded-xl text-sm font-semibold" onclick="leaderTab(this,'all')">All Time</button>
+    </div>
+  </div>
+
+  <div class="card p-6 md:p-8">
+    <div class="grid grid-cols-3 gap-4 items-end podium mb-8">
+
+      <!-- SECOND POSITION: AJINKYA -->
+      <div class="text-center">
+        <div class="w-16 h-16 mx-auto rounded-full bg-slate-200 grid place-items-center text-2xl">👨🏻‍🎓</div>
+        <div class="font-bold mt-2">Ajinkya</div>
+        <div class="text-green font-bold">7,940</div>
+        <div class="mt-3 h-24 rounded-t-2xl bg-slate-200/70 grid place-items-center font-bold">🥈 #2</div>
+      </div>
+
+      <!-- FIRST POSITION: NAMEET -->
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto rounded-full bg-amber-100 grid place-items-center text-3xl ring-4 ring-amber-200">👨🏻‍🎓</div>
+        <div class="font-bold mt-2">Nameet</div>
+        <div class="text-green font-bold">8,420</div>
+        <div class="mt-3 h-36 rounded-t-2xl bg-amber-100 grid place-items-center font-bold">🏆 #1</div>
+      </div>
+
+      <!-- THIRD POSITION: ARNAV -->
+      <div class="text-center">
+        <div class="w-16 h-16 mx-auto rounded-full bg-orange-100 grid place-items-center text-2xl">👨🏻‍💻</div>
+        <div class="font-bold mt-2">Arnav</div>
+        <div class="text-green font-bold">7,610</div>
+        <div class="mt-3 h-20 rounded-t-2xl bg-orange-100 grid place-items-center font-bold">🥉 #3</div>
+      </div>
+
+    </div>
+
+    <div id="leaderRows"></div>
+  </div>
+</section>
 
 
 <section class="mt-16 card p-7 md:p-10 overflow-hidden relative"><div class="relative z-10 max-w-2xl"><span class="text-green font-bold text-sm">YOUR IMPACT</span><h2 class="text-3xl md:text-4xl font-bold mt-2">Your campus is becoming greener.</h2><p class="muted mt-3">Keep going. Small actions compound into measurable change.</p><div class="flex flex-wrap gap-3 mt-6"><button onclick="openModal('historyModal')" class="btn green text-white px-5 py-3 rounded-xl font-bold">View Activity History</button><button onclick="scrollToId('badges')" class="btn soft px-5 py-3 rounded-xl font-bold">View Badges</button></div></div><div class="absolute right-5 bottom-0 text-[140px] opacity-20">🌳</div></section>
@@ -325,8 +399,7 @@
   </div>
 </div>
 <div id="rewardModal" class="modal-wrap"><div class="modal card p-7"><div class="text-center"><div id="rewardEmoji" class="text-6xl"></div><h2 id="rewardTitle" class="text-3xl font-bold mt-3"></h2><p id="rewardCost" class="text-green font-bold mt-2"></p><p class="muted text-sm mt-3">Confirm redemption? Your points will be deducted.</p><div class="flex gap-3 mt-6"><button onclick="closeModal('rewardModal')" class="btn soft flex-1 py-3 rounded-xl font-bold">Cancel</button><button onclick="confirmReward()" class="btn green text-white flex-1 py-3 rounded-xl font-bold">Redeem ✓</button></div></div></div></div>
-<div id="profileModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><div><span class="text-green font-bold text-xs">YOUR PROFILE</span><h2 class="text-3xl font-bold mt-1">Arnav · Green Guardian</h2></div><button onclick="closeModal('profileModal')">✕</button></div><div class="grid grid-cols-2 gap-4 mt-6"><div class="soft rounded-2xl p-5"><b>1,250</b><p class="muted text-xs">Eco Points</p></div><div class="soft rounded-2xl p-5"><b>12 days</b><p class="muted text-xs">Current Streak</p></div><div class="soft rounded-2xl p-5"><b>7</b><p class="muted text-xs">Trees Planted</p></div><div class="soft rounded-2xl p-5"><b>8</b><p class="muted text-xs">Badges</p></div></div></div></div>
-<div id="verificationModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><h2 class="text-3xl font-bold">Verification rules</h2><button onclick="closeModal('verificationModal')">✕</button></div><div class="mt-5 space-y-3 text-sm"><p>📸 <b>Photos:</b> Required for planting, cleanup and reuse tasks.</p><p>🧾 <b>Receipts:</b> Useful for recycling/e-waste proof.</p><p>📱 <b>Activity screenshots:</b> Accepted for cycling/walking tasks.</p><p>🛡️ <b>Anti-cheat:</b> Repeated or suspicious submissions can be rejected.</p></div></div></div>
+<div id="profileModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><div><span class="text-green font-bold text-xs">YOUR PROFILE</span><h2 class="text-3xl font-bold mt-1" id="userProfileName">EcoSprout User</h2></div><button onclick="closeModal('profileModal')">✕</button></div><div class="grid grid-cols-2 gap-4 mt-6"><div class="soft rounded-2xl p-5"><b id="profilePoints">0</b><p class="muted text-xs">Eco Points</p></div><div class="soft rounded-2xl p-5"><b id="profileStreak">0 days</b><p class="muted text-xs">Current Streak</p></div><div class="soft rounded-2xl p-5"><b id="profileTrees">0</b><p class="muted text-xs">Trees Planted</p></div><div class="soft rounded-2xl p-5"><b id="profileBadges">0</b><p class="muted text-xs">Badges</p></div></div></div></div><div id="verificationModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><h2 class="text-3xl font-bold">Verification rules</h2><button onclick="closeModal('verificationModal')">✕</button></div><div class="mt-5 space-y-3 text-sm"><p>📸 <b>Photos:</b> Required for planting, cleanup and reuse tasks.</p><p>🧾 <b>Receipts:</b> Useful for recycling/e-waste proof.</p><p>📱 <b>Activity screenshots:</b> Accepted for cycling/walking tasks.</p><p>🛡️ <b>Anti-cheat:</b> Repeated or suspicious submissions can be rejected.</p></div></div></div>
 <div id="ngoModal" class="modal-wrap"><div class="modal card p-7"><h2 class="text-3xl font-bold">Create your NGO 🌱</h2><input id="ngoName" class="w-full mt-5 p-4 rounded-xl soft outline-none" placeholder="NGO / team name"><textarea class="w-full mt-3 p-4 rounded-xl soft outline-none" rows="3" placeholder="What environmental mission will your team tackle?"></textarea><button onclick="createNGO()" class="btn green text-white w-full mt-4 py-3 rounded-xl font-bold">Create Team</button><button onclick="closeModal('ngoModal')" class="w-full mt-3 py-2 muted">Cancel</button></div></div>
 <div id="joinModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><h2 class="text-3xl font-bold">Explore Groups 🤝</h2><button onclick="closeModal('joinModal')">✕</button></div><div class="mt-5 space-y-3"><div class="soft p-4 rounded-2xl flex justify-between"><span>🌳 Green Warriors</span><button onclick="joinTeam('Green Warriors')" class="btn green text-white px-4 py-2 rounded-xl text-sm font-bold">Join</button></div><div class="soft p-4 rounded-2xl flex justify-between"><span>♻️ Zero Waste Club</span><button onclick="joinTeam('Zero Waste Club')" class="btn green text-white px-4 py-2 rounded-xl text-sm font-bold">Join</button></div><div class="soft p-4 rounded-2xl flex justify-between"><span>💧 Blue Planet</span><button onclick="joinTeam('Blue Planet')" class="btn green text-white px-4 py-2 rounded-xl text-sm font-bold">Join</button></div></div></div></div>
 <div id="campaignModal" class="modal-wrap"><div class="modal card p-7"><div class="flex justify-between"><h2 class="text-3xl font-bold">Launch Campaign 📣</h2><button onclick="closeModal('campaignModal')">✕</button></div><input class="w-full mt-5 p-4 rounded-xl soft outline-none" placeholder="Campaign name"><input class="w-full mt-3 p-4 rounded-xl soft outline-none" placeholder="Date & location"><button onclick="launchCampaign()" class="btn green text-white w-full mt-4 py-3 rounded-xl font-bold">Launch Event</button></div></div>
@@ -355,7 +428,101 @@ async function loadUserPoints() {
     const data = await response.json();
 
     if (data.success && data.profile) {
-      points = Number(data.profile.points) || 0;
+      const profile = data.profile;
+
+      points = Number(profile.points) || 0;
+
+      const trees = Number(profile.trees) || 0;
+      const carbon = Number(profile.carbon) || 0;
+      const streak = Number(profile.streak) || 0;
+
+      const level = Math.max(1, Math.floor(points / 500) + 1);
+      const dashboardLevel = document.getElementById("dashboardLevel");
+const dashboardStreak = document.getElementById("dashboardStreak");
+const streakBonus = document.getElementById("streakBonus");
+const streakProgress = document.getElementById("streakProgress");
+
+if (dashboardLevel) {
+  dashboardLevel.textContent =
+    `Level ${level} · ${level === 1 ? "Beginner" : "Green Guardian"}`;
+}
+
+if (dashboardStreak) {
+  dashboardStreak.textContent = streak;
+}
+
+const daysToBonus = streak % 7 === 0 && streak > 0
+  ? 0
+  : 7 - (streak % 7);
+
+if (streakBonus) {
+  streakBonus.textContent =
+    daysToBonus === 0
+      ? "Streak bonus reached!"
+      : `${daysToBonus} days to next bonus`;
+}
+
+if (streakProgress) {
+  streakProgress.style.width = `${((streak % 7) / 7) * 100}%`;
+}
+
+// Update dashboard stats using logged-in user's profile
+const dashboardTrees = document.getElementById("dashboardTrees");
+const dashboardCarbon = document.getElementById("dashboardCarbon");
+const dashboardBadges = document.getElementById("dashboardBadges");
+
+if (dashboardTrees) {
+  dashboardTrees.textContent = trees;
+}
+
+if (dashboardCarbon) {
+  dashboardCarbon.textContent = carbon;
+}
+
+if (dashboardBadges) {
+  dashboardBadges.textContent =
+    `${Number(profile.badges) || 0} / 14`;
+}      
+const treesElement = document.getElementById("userTrees");
+      const carbonElement = document.getElementById("userCarbon");
+      const streakElement = document.getElementById("userStreak");
+      const levelElement = document.getElementById("userLevel");
+      const profileName = document.getElementById("userProfileName");
+const profilePoints = document.getElementById("profilePoints");
+const profileStreak = document.getElementById("profileStreak");
+const profileTrees = document.getElementById("profileTrees");
+const profileBadges = document.getElementById("profileBadges");
+
+      if (treesElement) treesElement.textContent = trees;
+      if (carbonElement) carbonElement.textContent = carbon;
+      if (streakElement) streakElement.textContent = streak;
+
+      if (levelElement) {
+        levelElement.textContent =
+          `LEVEL ${String(level).padStart(2, "0")} · ${
+            level === 1 ? "BEGINNER" : "GREEN GUARDIAN"
+          }`;
+      }
+      if (profileName) {
+  profileName.textContent =
+    profile.name || profile.email || "EcoSprout User";
+}
+
+if (profilePoints) {
+  profilePoints.textContent = points.toLocaleString("en-IN");
+}
+
+if (profileStreak) {
+  profileStreak.textContent = `${streak} days`;
+}
+
+if (profileTrees) {
+  profileTrees.textContent = trees;
+}
+
+if (profileBadges) {
+  profileBadges.textContent = Number(profile.badges) || 0;
+}
       render();
     }
   } catch (error) {
@@ -367,8 +534,7 @@ function renderActions(){ $('actionGrid').innerHTML=actions.map((a,i)=>`<div cla
 let rewardRowsExpanded=false;function toggleRewardRows(){rewardRowsExpanded=!rewardRowsExpanded;renderRewards()}
 function renderRewards(){ $('rewardGrid').innerHTML=rewards.map((r,i)=>{let locked=points<r[2];return `<div class="reward card p-5 ${locked?'locked':''} ${!rewardRowsExpanded && i>=4?'hidden':''}"><div class="flex justify-between items-start"><div class="text-4xl">${r[0]}</div>${locked?'<span class="text-xs">🔒</span>':'<span class="text-xs text-green font-bold">UNLOCKED</span>'}</div><h3 class="font-bold mt-5">${r[1]}</h3><p class="text-green font-bold mt-2">${fmt(r[2])} pts</p><div class="progress mt-4"><i style="width:${Math.min(100,points/r[2]*100)}%"></i></div><p class="muted text-xs mt-2">${locked?`${fmt(r[2]-points)} pts more to unlock`:'Ready to redeem'}</p><button ${locked?'disabled':''} onclick="openReward(${i})" class="btn ${locked?'soft muted':'green text-white'} w-full mt-4 py-3 rounded-xl font-bold text-sm">${locked?'Locked':'Redeem Reward'}</button></div>`}).join('');$('rewardSeeMore').textContent=rewardRowsExpanded?'SEE LESS ↑':'SEE MORE ↓';$('rewardSeeMore').setAttribute('aria-expanded',String(rewardRowsExpanded))}
 function renderBadges(){ $('badgeGrid').innerHTML=badges.map(b=>`<div class="badge ${b[3]?'':'locked'} card p-4 text-center"><div class="badge-icon w-14 h-14 mx-auto rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 grid place-items-center text-2xl">${b[0]}</div><h3 class="font-bold text-xs mt-3">${b[1]}</h3><p class="muted text-[10px] mt-1">${b[2]}</p>${b[3]?'<span class="text-[9px] text-green font-bold block mt-2">UNLOCKED</span>':'<span class="text-[9px] muted block mt-2">🔒 LOCKED</span>'}</div>`).join('')}
-const leaders=[['Rohan S.','8,420'],['Riya K.','7,940'],['Meera P.','7,610'],['Kabir A.','6,980'],['Ananya R.','6,420'],['Dev M.','5,910']];
-function renderLeaders(type){let mult=type==='weekly'?.35:type==='all'?1.8:1; $('leaderRows').innerHTML=leaders.slice(3).map((l,i)=>`<div class="table-row flex items-center gap-4 p-4 rounded-2xl"><b class="w-8 text-muted">#${i+4}</b><div class="w-11 h-11 rounded-full bg-emerald-100 dark:bg-emerald-900/40 grid place-items-center">${['🧑🏽‍🎓','👩🏻‍🎓','🧑🏽‍💻'][i%3]}</div><b class="flex-1">${l[0]}</b><span class="text-green font-bold">${fmt(Math.round(+l[1].replace(',','')*mult))} pts</span></div>`).join('')+`<div class="rank-you flex items-center gap-4 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 mt-3"><b class="w-8">#42</b><div class="w-11 h-11 rounded-full green text-white grid place-items-center font-bold">AR</div><b class="flex-1">You</b><span class="text-green font-bold">${fmt(points)} pts</span></div>`}
+const leaders=[['Nameet','8,420'],['Ajinkya','7,940'],['Arnav','7,610'],['Sami','6,980'],['Rudra p.','6,420'],['Anas','5,910']];function renderLeaders(type){let mult=type==='weekly'?.35:type==='all'?1.8:1; $('leaderRows').innerHTML=leaders.slice(3).map((l,i)=>`<div class="table-row flex items-center gap-4 p-4 rounded-2xl"><b class="w-8 text-muted">#${i+4}</b><div class="w-11 h-11 rounded-full bg-emerald-100 dark:bg-emerald-900/40 grid place-items-center">${['🧑🏽‍🎓','👩🏻‍🎓','🧑🏽‍💻'][i%3]}</div><b class="flex-1">${l[0]}</b><span class="text-green font-bold">${fmt(Math.round(+l[1].replace(',','')*mult))} pts</span></div>`).join('')+`<div class="rank-you flex items-center gap-4 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 mt-3"><b class="w-8">#42</b><div class="w-11 h-11 rounded-full green text-white grid place-items-center font-bold">AR</div><b class="flex-1">You</b><span class="text-green font-bold">${fmt(points)} pts</span></div>`}
 function leaderTab(btn,type){document.querySelectorAll('.tab').forEach(x=>x.className='tab btn px-4 py-2 rounded-xl text-sm font-semibold');btn.className='tab btn px-4 py-2 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-green font-bold text-sm';renderLeaders(type)}
 function openModal(id){$(id).style.display='flex'}function closeModal(id){$(id).style.display='none'}document.querySelectorAll('.modal-wrap').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.style.display='none'}));
 function openAction(i){currentAction=i;$('actionTitle').textContent=actions[i][1];$('actionPoints').textContent=`Earn +${actions[i][2]} points · ${actions[i][3]}`;openModal('actionModal')}
