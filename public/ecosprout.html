@@ -335,7 +335,33 @@
 const actions=[['🗑️','Collect & dispose 10 litter pieces',20,'Photo proof'],['♻️','Recycle 1 kg waste',40,'Receipt/photo'],['🌳','Plant a tree',100,'Photo proof'],['🌱','Care for a planted tree · 30 days',150,'Photo + record'],['🚲','Cycle / walk 5 km',30,'Activity screenshot'],['🚌','Use public transport · 10 km',25,'Ticket/photo'],['💡','Save electricity for a day',10,'Self report'],['💧','Save water / report a leak',20,'Photo/report'],['📦','Donate/recycle old clothes',50,'Photo'],['🌍','Participate in cleanup drive',100,'Photo proof'],['🚯','Plastic-free day',15,'Self report'],['🔋','Properly recycle e-waste',75,'Receipt/photo']];
 const rewards=[['🌱','Seed Pack',500],['✏️','Plantable Seed Pencils',750],['🛍️','Jute / Cloth Bag',1000],['📓','Recycled Notebook',1500],['🪴','Small Plant + Pot',2500],['🥤','Reusable Steel Bottle',4000],['🍱','Reusable Lunch Box',5000],['🥢','Bamboo Eco Kit',6000],['👕','Eco-friendly T-shirt',8000],['🎒','Recycled-material Backpack',12000],['🎟️','₹250 Voucher',15000],['🌳','Sponsor a Tree',18000],['🎁','Premium Eco Gift Box',25000],['💳','₹500 Voucher',30000]];
 const badges=[['🌱','Eco Beginner','500 points',true],['♻️','Recycler','Recycle 10 kg waste',true],['🚲','Green Traveler','Cycle / walk 50 km',true],['💧','Water Saver','10 water-saving tasks',true],['🌳','Tree Planter','Plant 5 trees',true],['🧹','Clean Warrior','5 cleanup drives',true],['🛍️','Plastic Buster','Avoid 100 plastic items',true],['🌿','Green Guardian','Maintain a plant 90 days',true],['⚡','Energy Saver','30 energy-saving tasks',false],['🔋','E-Waste Hero','Recycle 5 kg e-waste',false],['🌍','Earth Defender','10,000 points',false],['🔥','Eco Streaker','30-day streak',false],['👑','Eco Champion','25,000 points',false],['🌎','Eco Legend','50,000 points',false]];
-let points=1250,currentAction=null,pendingReward=null,history=[];
+let points=0,currentAction=null,pendingReward=null,history=[];
+async function loadUserPoints() {
+  try {
+    const response = await fetch("/api/profile", {
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+
+    if (response.status === 401) {
+      console.log("User not logged in.");
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Unable to load user profile.");
+    }
+
+    const data = await response.json();
+
+    if (data.success && data.profile) {
+      points = Number(data.profile.points) || 0;
+      render();
+    }
+  } catch (error) {
+    console.error("Error loading user points:", error);
+  }
+}
 function $(id){return document.getElementById(id)}function fmt(n){return n.toLocaleString('en-IN')}function render(){ $('navPoints').textContent=fmt(points);$('pointsBig').textContent=fmt(points);$('shopPoints').textContent=fmt(points); renderActions();renderRewards();renderBadges();renderLeaders('monthly');renderHistory();lucide.createIcons()}
 function renderActions(){ $('actionGrid').innerHTML=actions.map((a,i)=>`<div class="card p-5 flex flex-col justify-between"><div><div class="flex justify-between gap-3"><span class="text-3xl">${a[0]}</span><span class="pill bg-emerald-100 dark:bg-emerald-900/40 text-green px-3 py-1 text-xs font-bold h-fit">+${a[2]} XP</span></div><h3 class="font-bold text-lg mt-4">${a[1]}</h3><p class="muted text-xs mt-2">Proof: ${a[3]}</p></div><button onclick="openAction(${i})" class="btn soft w-full mt-5 py-3 rounded-xl font-bold text-sm">Log Action →</button></div>`).join('')}
 let rewardRowsExpanded=false;function toggleRewardRows(){rewardRowsExpanded=!rewardRowsExpanded;renderRewards()}
@@ -351,7 +377,7 @@ async function verifyAction() {
   const statusElement = document.getElementById("aiVerificationStatus");
   const button = document.getElementById("verifyActionButton");
 
-  const video = videoInput.files[0];
+  const video = videoInput?.files?.[0];
 
   if (!video) {
     statusElement.textContent = "⚠️ Please upload a video first.";
@@ -363,13 +389,12 @@ async function verifyAction() {
     return;
   }
 
-  if (video.size > 5 * 1024 * 1024) {
+  if (video.size === 0 || video.size > 5 * 1024 * 1024) {
     statusElement.textContent = "⚠️ Please upload a video smaller than 5 MB.";
     return;
   }
 
-  const actionIndex = currentAction;
-  const action = actions[actionIndex];
+  const action = actions[currentAction];
 
   if (!action) {
     statusElement.textContent = "❌ Invalid activity selected.";
@@ -399,19 +424,43 @@ async function verifyAction() {
 
     const result = data.verification;
 
-    if (
-      result.status === "APPROVED" &&
+    const approved =
+      result?.status === "APPROVED" &&
       result.personDetected === true &&
       result.activityDetected === true &&
       result.stepsVisible === true &&
-      result.suspicious === false
-    ) {
-      points += action[2];
+      result.suspicious === false;
+
+    if (approved) {
+      const pointsAwarded = Number(data.pointsAwarded);
+
+      if (!Number.isFinite(pointsAwarded) || pointsAwarded <= 0) {
+        throw new Error("Points were not confirmed by the server.");
+      }
+
+      // Fetch the actual saved points from DynamoDB.
+      const profileResponse = await fetch("/api/profile", {
+        cache: "no-store"
+      });
+
+      if (!profileResponse.ok) {
+        throw new Error(
+          "Activity verified, but saved points could not be loaded. Please refresh."
+        );
+      }
+
+      const profileData = await profileResponse.json();
+
+      if (!profileData.success || !profileData.profile) {
+        throw new Error("Unable to load saved points.");
+      }
+
+      points = Number(profileData.profile.points) || 0;
 
       history.unshift({
         icon: action[0],
         text: action[1],
-        pts: action[2],
+        pts: pointsAwarded,
         time: "Just now"
       });
 
@@ -419,24 +468,29 @@ async function verifyAction() {
 
       closeModal("actionModal");
 
-      toast(`+${action[2]} points added! 🌱`);
+      toast(`+${pointsAwarded} points added! 🌱`);
 
       render();
 
       videoInput.value = "";
-    } else if (result.status === "NEEDS_REVIEW") {
+
+    } else if (result?.status === "NEEDS_REVIEW") {
       statusElement.textContent =
-        "🟡 Needs Review: " + (result.reason || "Video evidence is unclear.");
+        "🟡 Needs Review: " +
+        (result.reason || "Video evidence is unclear.");
+
     } else {
       statusElement.textContent =
         "❌ Verification Rejected: " +
-        (result.reason || "Activity could not be verified.");
+        (result?.reason || "Activity could not be verified.");
     }
+
   } catch (error) {
     console.error("Gemini verification error:", error);
 
     statusElement.textContent =
-      "⚠️ Verification failed: " + error.message;
+      "⚠️ " + error.message;
+
   } finally {
     button.disabled = false;
     button.textContent = "Submit for Verification";
@@ -487,5 +541,5 @@ l.addEventListener('pointerdown',e=>{e.preventDefault();held=true;flight.kill();
 l.addEventListener('pointermove',e=>{if(!held)return;velX=e.clientX-lastX;velY=e.clientY-lastY;l.style.left=(parseFloat(l.style.left)+velX)+'px';l.style.top=(parseFloat(l.style.top)+velY)+'px';lastX=e.clientX;lastY=e.clientY});
 l.addEventListener('pointerup',e=>{if(!held)return;held=false;l.style.cursor='grab';let endY=window.innerHeight+60-parseFloat(l.style.top);gsap.to(l,{x:velX*20,y:endY,rotation:velX*35,duration:Math.max(1.2,Math.min(4,Math.abs(endY)/240)),ease:'power1.out',onComplete:()=>l.remove()})});
 l.addEventListener('pointercancel',()=>{held=false;l.remove()});},1800)}
-if(localStorage.getItem('ecoTheme')==='light')toggleTheme();window.addEventListener('load',()=>{initHero();initGarden();leaves();render();gsap.from('.hero-content>*',{y:30,opacity:0,duration:.9,stagger:.12,delay:.25}); $('hero').addEventListener('pointermove',e=>{let r=$('hero').getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;document.querySelector('.pixel-world').style.transform=`scale(1.045) translate(${x*-7}px,${y*-5}px)`;}); $('gardenCount').textContent=$('draggableGarden').children.length;});
+if(localStorage.getItem('ecoTheme')==='light')toggleTheme();window.addEventListener('load',()=>{initHero();initGarden();leaves();render();loadUserPoints();gsap.from('.hero-content>*',{y:30,opacity:0,duration:.9,stagger:.12,delay:.25}); $('hero').addEventListener('pointermove',e=>{let r=$('hero').getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;document.querySelector('.pixel-world').style.transform=`scale(1.045) translate(${x*-7}px,${y*-5}px)`;}); $('gardenCount').textContent=$('draggableGarden').children.length;});
 </script></body></html>
